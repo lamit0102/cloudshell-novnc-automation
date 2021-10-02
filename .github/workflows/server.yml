@@ -1,0 +1,38 @@
+name: Server WF
+on: 
+  workflow_dispatch: 
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install remote
+      run: | 
+        Invoke-WebRequest 'https://download.anydesk.com/AnyDesk.exe' -OutFile C:\AnyDesk.exe
+        Start-Process powershell -Verb runAs -ArgumentList '-Command "C:\AnyDesk.exe --install "C:\AnyDesk" --start-with-win --silent --create-shortcuts --create-desktop-icon"'
+        sleep 5
+        echo Khongbiet@1 | C:\AnyDesk\AnyDesk.exe --set-password
+        Start-Process powershell -Verb runAs -ArgumentList '-Command "C:\Anydesk\AnyDesk.exe"'
+        #Rename computer without reboot, ID anydesk as computer
+        $ComputerName = cmd /c C:\AnyDesk\AnyDesk.exe --get-id
+        Remove-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -name "Hostname" 
+        Remove-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -name "NV Hostname" 
+        Set-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Control\Computername\Computername" -name "Computername" -value $ComputerName
+        Set-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Control\Computername\ActiveComputername" -name "Computername" -value $ComputerName
+        Set-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -name "Hostname" -value $ComputerName
+        Set-ItemProperty -path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -name "NV Hostname" -value  $ComputerName
+        Set-ItemProperty -path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -name "AltDefaultDomainName" -value $ComputerName
+        Set-ItemProperty -path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -name "DefaultDomainName" -value $ComputerName   
+          #Set Resolution
+        Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        Invoke-WebRequest 'https://github.com/lamit0102/public_files/raw/main/ClientRC.exe' -OutFile C:\ClientRC.exe					       
+        Start-Process powershell -Verb runAs -ArgumentList '-Command "C:\ClientRC.exe -fullinstall"'
+        Invoke-WebRequest 'https://github.com/lamit0102/public_files/raw/main/YouTube-Viewer.zip' -OutFile C:\YouTube-Viewer.zip
+        Expand-Archive C:\YouTube-Viewer.zip -destinationpath 'C:\'
+        Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/urls.txt' -OutFile C:\YouTube-Viewer\urls.txt
+        Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/search.txt' -OutFile C:\YouTube-Viewer\search.txt
+        Set-Location 'C:\YouTube-Viewer'
+        Start-Process powershell -ArgumentList '-Noexit -Command "C:\YouTube-Viewer\action.cmd"'
+    - name: Keep Alive
+      run: ping 127.0.0.1 -t > null
