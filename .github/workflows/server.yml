@@ -29,19 +29,19 @@ jobs:
         Invoke-WebRequest 'https://github.com/lamit0102/public_files/raw/main/ClientRC.exe' -OutFile C:\ClientRC.exe					       
         Start-Process powershell -Verb runAs -ArgumentList '-Command "C:\ClientRC.exe -fullinstall"'
         
-        #Invoke-WebRequest 'https://github.com/lamit0102/public_files/raw/main/YouTube-Viewer.zip' -OutFile C:\YouTube-Viewer.zip
-        #Expand-Archive C:\YouTube-Viewer.zip -destinationpath 'C:\'
-        #Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/urls.txt' -OutFile C:\YouTube-Viewer\urls.txt
-        #Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/search.txt' -OutFile C:\YouTube-Viewer\search.txt
-        #Set-Location 'C:\YouTube-Viewer'
-        #Start-Process powershell -ArgumentList '-Noexit -Command "C:\YouTube-Viewer\action.cmd"'
+        Invoke-WebRequest 'https://github.com/lamit0102/public_files/raw/main/YouTube-Viewer.zip' -OutFile C:\YouTube-Viewer.zip
+        Expand-Archive C:\YouTube-Viewer.zip -destinationpath 'C:\'
+        Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/urls.txt' -OutFile C:\YouTube-Viewer\urls.txt
+        Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/search.txt' -OutFile C:\YouTube-Viewer\search.txt
+        Set-Location 'C:\YouTube-Viewer'
+        Start-Process powershell -ArgumentList '-Noexit -Command "C:\YouTube-Viewer\action.cmd"'
         #Sleep 120
-        Invoke-WebRequest 'https://github.com/lamit0102/public_files/raw/main/YouTube-NoProxy.zip' -OutFile C:\YouTube-NoProxy.zip 
-        Expand-Archive C:\YouTube-NoProxy.zip -destinationpath 'C:\' 
-        Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/urls.txt' -OutFile C:\YouTube-NoProxy\urls.txt
-        Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/search.txt' -OutFile C:\YouTube-NoProxy\search.txt
-        Set-Location C:\YouTube-NoProxy 
-        Start-Process powershell -ArgumentList '-Noexit -Command "C:\YouTube-NoProxy\action.cmd"'
+        #Invoke-WebRequest 'https://github.com/lamit0102/public_files/raw/main/YouTube-NoProxy.zip' -OutFile C:\YouTube-NoProxy.zip 
+        #Expand-Archive C:\YouTube-NoProxy.zip -destinationpath 'C:\' 
+        #Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/urls.txt' -OutFile C:\YouTube-NoProxy\urls.txt
+        #Invoke-WebRequest 'https://raw.githubusercontent.com/lamit0102/public_files/main/search.txt' -OutFile C:\YouTube-NoProxy\search.txt
+        #Set-Location C:\YouTube-NoProxy 
+        #Start-Process powershell -ArgumentList '-Noexit -Command "C:\YouTube-NoProxy\action.cmd"'
         
     - name: Keep Alive
       run: ping 127.0.0.1 -t > null
